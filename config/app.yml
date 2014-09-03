@@ -2,8 +2,8 @@ all:
   linkedin:
     api_key:        XXX
     api_secret:     XXX
-    after_signin_url:           '@panel'
-    after_signout_url:          '@homepage'
+    after_signin_url:           '@homepage'
+    after_connect_url:          '@homepage'
     model_class:                sfGuardUser
     model_facebook_uid_column:  linkedin_uid
     model_email_column:         email_address
