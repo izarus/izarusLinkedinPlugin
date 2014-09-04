@@ -4,6 +4,10 @@ class BasesfLinkedinAuthActions extends sfActions
 {
   public function executeSignin(sfWebRequest $request)
   {
+    if ($request->getParameter('redirect')) {
+      $this->getUser()->setFlash('redirect',$request->getParameter('redirect'));
+    }
+
     $linkedin = new sfLinkedin($this->getContext()->getRouting()->generate('linkedin_signin_response',array(),true));
 
     $url = $linkedin->getLoginUrl(array(
@@ -62,7 +66,12 @@ class BasesfLinkedinAuthActions extends sfActions
     }
 
     $this->getUser()->signIn($usuario);
-    $this->redirect(sfConfig::get('app_linkedin_after_signin_url','@homepage'));
+
+    if ($this->getUser()->hasFlash('redirect')) {
+      return $this->redirect($this->getUser()->getFlash('redirect'));
+    } else {
+      $this->redirect(sfConfig::get('app_linkedin_after_signin_url','@homepage'));
+    }
 
   }
 
